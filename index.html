@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#101827">
+<meta name="description" content="حياتي - دفتر يومي شخصي يعمل دون إنترنت">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<title>حياتي</title>
+<style>
+:root{--bg:#0b1220;--panel:#121d2e;--panel2:#19263a;--line:#26364d;--txt:#edf3fb;--muted:#9babc0;--accent:#69d2bd;--accent2:#9c8cff;--red:#ff8b8b;--yellow:#ffd27a}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 85% -10%,#1e3650 0,transparent 36%),var(--bg);color:var(--txt);font-family:system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif;min-height:100vh}
+button,input,textarea,select{font:inherit}button{cursor:pointer}
+header{position:sticky;top:0;z-index:5;background:#0b1220eF;backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:14px max(16px,calc((100vw - 900px)/2));display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:10px}.logo{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,#69d2bd,#8b82f6);display:grid;place-items:center;color:#07131d;font-size:24px;font-weight:900}.brand h1{font-size:21px;margin:0}.brand small{color:var(--muted);display:block;font-size:11px}
+.header-actions{display:flex;gap:8px}.iconbtn,.secondary,.primary,.danger{border:1px solid var(--line);background:var(--panel2);color:var(--txt);border-radius:12px;padding:10px 12px}.primary{background:var(--accent);color:#08201d;border:0;font-weight:800}.danger{color:var(--red)}
+main{max-width:900px;margin:auto;padding:18px 15px 100px}
+.greeting{display:flex;justify-content:space-between;align-items:end;gap:12px;margin:8px 0 18px}.greeting h2{font-size:23px;margin:0 0 4px}.muted{color:var(--muted);font-size:13px}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:20px}.stat{background:linear-gradient(145deg,var(--panel),#17253a);border:1px solid var(--line);border-radius:17px;padding:14px}.stat .n{font-size:22px;font-weight:800;margin-top:5px}.stat .s{font-size:12px;color:var(--muted)}
+.section-title{display:flex;align-items:center;justify-content:space-between;margin:22px 2px 12px}.section-title h3{margin:0;font-size:16px}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.tile{border:1px solid var(--line);background:linear-gradient(145deg,var(--panel),#152238);border-radius:17px;padding:14px 8px;min-height:100px;text-align:center;color:var(--txt);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px}.tile:active{transform:scale(.98)}.tile .emoji{font-size:25px}.tile b{font-size:13px}.tile small{font-size:10px;color:var(--muted)}
+.toolbar{display:flex;gap:8px;margin:12px 0}.toolbar input{flex:1;min-width:0}
+input,textarea,select{width:100%;border:1px solid var(--line);background:#0d1727;color:var(--txt);border-radius:12px;padding:12px;outline:none}input:focus,textarea:focus,select:focus{border-color:var(--accent)}textarea{min-height:90px;resize:vertical}
+.record{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:13px;margin:9px 0;display:flex;gap:11px;align-items:flex-start}.record .dot{font-size:22px}.record .body{flex:1;min-width:0}.record h4{margin:0 0 5px;font-size:15px;overflow-wrap:anywhere}.record p{margin:5px 0;color:var(--muted);font-size:12px;white-space:pre-wrap;overflow-wrap:anywhere}.record .meta{font-size:11px;color:var(--muted);display:flex;gap:10px;flex-wrap:wrap}.record .money{font-weight:800;color:var(--accent)}.record.done{opacity:.55}.record.done h4{text-decoration:line-through}
+.actions{display:flex;gap:6px}.actions button{background:transparent;border:0;color:var(--muted);padding:5px;font-size:17px}
+.empty{padding:28px 14px;text-align:center;border:1px dashed var(--line);border-radius:16px;color:var(--muted);font-size:13px}
+.fab{position:fixed;bottom:22px;left:20px;width:58px;height:58px;border:0;border-radius:20px;background:var(--accent);color:#07221e;font-size:30px;box-shadow:0 8px 28px #0008;z-index:6}
+.bottom{position:fixed;bottom:0;right:0;left:0;background:#0b1220ed;border-top:1px solid var(--line);padding:9px 12px calc(9px + env(safe-area-inset-bottom));display:flex;justify-content:center;gap:28px;z-index:4}.bottom button{border:0;background:none;color:var(--muted);font-size:11px}.bottom button span{display:block;font-size:19px;margin-bottom:2px}.bottom button.active{color:var(--accent)}
+.overlay{position:fixed;inset:0;background:#0009;z-index:10;display:none;align-items:end;justify-content:center}.overlay.show{display:flex}.modal{width:min(100%,620px);max-height:92vh;overflow:auto;background:#111d2e;border:1px solid var(--line);border-radius:22px 22px 0 0;padding:19px 16px calc(20px + env(safe-area-inset-bottom))}.modal h3{margin:0 0 15px}.field{margin:11px 0}.field label{display:block;color:var(--muted);font-size:12px;margin:0 3px 6px}.formrow{display:grid;grid-template-columns:1fr 1fr;gap:9px}.modal-actions{display:flex;gap:8px;margin-top:17px}.modal-actions button{flex:1}
+.pagehead{display:flex;align-items:center;gap:10px}.back{border:1px solid var(--line);background:var(--panel);color:var(--txt);border-radius:12px;padding:9px 13px}
+.tools{display:grid;grid-template-columns:1fr 1fr;gap:10px}.tool{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:14px;color:var(--txt);text-align:right}.tool b{display:block;margin:5px 0}.tool small{color:var(--muted)}
+@media(min-width:650px){.stats{grid-template-columns:repeat(4,1fr)}.tiles{grid-template-columns:repeat(4,1fr)}.overlay{align-items:center}.modal{border-radius:22px}.fab{left:calc(50% - 440px)}}
+</style>
+</head>
+<body>
+<header><div class="brand"><div class="logo">ح</div><div><h1>حياتي</h1><small>كل يومك في مكان واحد</small></div></div><div class="header-actions"><button class="iconbtn" id="backupBtn" title="نسخة احتياطية">⇧</button><button class="iconbtn" id="settingsBtn" title="الإعدادات">⚙</button></div></header>
+<main id="app"></main>
+<button class="fab" id="fab" aria-label="إضافة">+</button>
+<nav class="bottom"><button class="active" data-tab="home"><span>⌂</span>الرئيسية</button><button data-tab="calendar"><span>▦</span>التقويم</button><button data-tab="all"><span>▤</span>كل السجلات</button><button data-tab="tools"><span>☷</span>أدوات</button></nav>
+<div class="overlay" id="overlay"><div class="modal"><h3 id="modalTitle">إضافة سجل</h3><form id="recordForm">
+<input type="hidden" id="recordId">
+<div class="field"><label>القسم</label><select id="category"></select></div>
+<div class="field"><label>العنوان / الاسم</label><input id="title" required placeholder="اكتب عنوان السجل"></div>
+<div class="formrow"><div class="field"><label>التاريخ</label><input id="date" type="date"></div><div class="field"><label>المبلغ (اختياري)</label><input id="amount" type="number" step="0.01" inputmode="decimal" placeholder="0"></div></div>
+<div class="field" id="kindWrap"><label>نوع الحركة المالية</label><select id="kind"><option value="credit">دائن (فلوس ليك)</option><option value="debit">مدين (فلوس عليك)</option></select></div>
+<div class="field"><label>اسم الشخص / الجهة (اختياري)</label><input id="person" placeholder="اسم أو جهة"></div>
+<div class="field"><label>رقم الهاتف (اختياري)</label><input id="phone" inputmode="tel" placeholder="رقم الهاتف"></div>
+<div class="field"><label>ملاحظات</label><textarea id="notes" placeholder="اكتب أي تفاصيل أو ملاحظات..."></textarea></div>
+<div class="modal-actions"><button class="primary" type="submit">حفظ السجل</button><button class="secondary" type="button" id="cancelBtn">إلغاء</button></div>
+</form></div></div>
+<script>
+const CATS=[
+['money','💰','دائن ومدين'],['reminders','🔔','التذكيرات'],['birthdays','🎂','أعياد الميلاد'],['occasions','🎉','المناسبات'],['holidays','🗓️','الأعياد والتواريخ'],['notes','📝','الملاحظات'],['bills','🧾','الفواتير والالتزامات'],['shopping','🛒','المشتريات'],['contacts','👥','الأشخاص والأرقام'],['appointments','🩺','المواعيد'],['travel','✈️','السفر والرحلات'],['goals','🎯','الأهداف والخطط'],['trusts','🔑','الأمانات'],['ideas','💡','الأفكار'],['home','🏠','البيت والأسرة'],['work','💼','العمل'],['education','📚','التعلم'],['cars','🚗','السيارة'],['health','🌿','الصحة والرياضة'],['other','📌','أخرى']
+];
+const KEY='hayati_records_v1';let records=load();let current='home',filter='';
+function load(){try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){return []}}
+function save(){localStorage.setItem(KEY,JSON.stringify(records))}
+const $=id=>document.getElementById(id), esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const cat=id=>CATS.find(c=>c[0]===id)||CATS[CATS.length-1],money=n=>Number(n||0).toLocaleString('ar-EG',{maximumFractionDigits:2});
+function today(){return new Date().toISOString().slice(0,10)}
+function dateText(d){if(!d)return 'بدون تاريخ';try{return new Date(d+'T12:00:00').toLocaleDateString('ar-EG',{year:'numeric',month:'long',day:'numeric'})}catch(e){return d}}
+function render(){
+ const app=$('app');
+ if(current==='home'){let upcoming=records.filter(r=>r.date&&!r.done&&r.date>=today()).sort((a,b)=>a.date.localeCompare(b.date)).slice(0,5);let cr=records.filter(r=>r.category==='money'&&r.kind==='credit').reduce((s,r)=>s+Number(r.amount||0),0),dr=records.filter(r=>r.category==='money'&&r.kind==='debit').reduce((s,r)=>s+Number(r.amount||0),0);
+ app.innerHTML=`<div class="greeting"><div><h2>أهلاً بيك 👋</h2><div class="muted">${new Date().toLocaleDateString('ar-EG',{weekday:'long',year:'numeric',month:'long',day:'numeric'})}</div></div><span class="muted">نسختك الشخصية</span></div>
+ <div class="stats"><div class="stat"><div class="s">إجمالي السجلات</div><div class="n">${records.length}</div></div><div class="stat"><div class="s">مواعيد قادمة</div><div class="n">${upcoming.length}</div></div><div class="stat"><div class="s">دائن</div><div class="n">${money(cr)}</div></div><div class="stat"><div class="s">مدين</div><div class="n">${money(dr)}</div></div></div>
+ <div class="section-title"><h3>أقسام حياتك</h3><span class="muted">اختر قسمًا</span></div><div class="tiles">${CATS.map(c=>`<button class="tile" data-cat="${c[0]}"><span class="emoji">${c[1]}</span><b>${c[2]}</b><small>${records.filter(r=>r.category===c[0]).length} سجل</small></button>`).join('')}</div>
+ <div class="section-title"><h3>القادم في حياتك</h3><button class="secondary" data-go="calendar">عرض الكل</button></div>${upcoming.length?upcoming.map(recordHTML).join(''):'<div class="empty">لا توجد مواعيد قادمة مسجلة. أضف تذكيرًا أو مناسبة لتظهر هنا.</div>'}`;
+ }else if(current==='calendar'){
+ let dated=records.filter(r=>r.date).sort((a,b)=>a.date.localeCompare(b.date));app.innerHTML=`<div class="pagehead"><button class="back" data-go="home">رجوع</button><div><h2>التقويم والمواعيد</h2><div class="muted">كل السجلات المرتبطة بتاريخ</div></div></div>${dated.length?dated.map(recordHTML).join(''):'<div class="empty">لا توجد تواريخ مسجلة حتى الآن.</div>'}`;
+ }else if(current==='all'||current.startsWith('cat:')){
+ let catId=current.startsWith('cat:')?current.slice(4):null,arr=records.filter(r=>(!catId||r.category===catId)&&(!filter||(r.title+' '+r.person+' '+r.notes).toLowerCase().includes(filter.toLowerCase()))).sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+ let title=catId?cat(catId)[2]:'كل السجلات';app.innerHTML=`<div class="pagehead"><button class="back" data-go="home">رجوع</button><div><h2>${title}</h2><div class="muted">${arr.length} سجل</div></div></div><div class="toolbar"><input id="search" placeholder="ابحث في السجلات..." value="${esc(filter)}"><button class="primary" id="addHere">＋ إضافة</button></div>${arr.length?arr.map(recordHTML).join(''):'<div class="empty">لا توجد سجلات هنا بعد. اضغط إضافة للبدء.</div>'}`;
+ }else if(current==='tools'){
+ app.innerHTML=`<h2>أدوات حياتي</h2><p class="muted">تحكم في بياناتك واحفظ نسخة احتياطية.</p><div class="tools"><button class="tool" id="exportBtn">📤<b>تصدير نسخة احتياطية</b><small>حفظ كل سجلاتك في ملف</small></button><button class="tool" id="importBtn">📥<b>استعادة نسخة</b><small>استيراد ملف محفوظ سابقًا</small></button><button class="tool" id="notifyBtn">🔔<b>تفعيل التنبيهات</b><small>إذن إشعارات المتصفح</small></button><button class="tool" id="clearBtn">🗑️<b>مسح كل البيانات</b><small>حذف جميع السجلات من هذا الجهاز</small></button></div><p class="muted" style="margin-top:18px">البيانات محفوظة على هذا الجهاز فقط. لا يوجد تسجيل دخول أو رفع للسحابة.</p>`;
+ }
+ document.querySelectorAll('[data-cat]').forEach(b=>b.onclick=()=>{current='cat:'+b.dataset.cat;filter='';render()});
+ document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{current=b.dataset.go;render()});
+ document.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>edit(b.dataset.edit));
+ document.querySelectorAll('[data-delete]').forEach(b=>b.onclick=()=>del(b.dataset.delete));
+ document.querySelectorAll('[data-done]').forEach(b=>b.onclick=()=>{let r=records.find(x=>x.id===b.dataset.done);r.done=!r.done;save();render()});
+ if($('search'))$('search').oninput=e=>{filter=e.target.value;let p=e.target.selectionStart;render();$('search').focus();$('search').setSelectionRange(p,p)};
+ if($('addHere'))$('addHere').onclick=()=>openForm(catId||'notes');
+ ['exportBtn','backupBtn'].forEach(id=>{if($(id))$(id).onclick=exportData});
+ if($('importBtn'))$('importBtn').onclick=importData;
+ if($('notifyBtn'))$('notifyBtn').onclick=enableNotifications;
+ if($('clearBtn'))$('clearBtn').onclick=clearData;
+}
+function recordHTML(r){let c=cat(r.category);return `<div class="record ${r.done?'done':''}"><div class="dot">${c[1]}</div><div class="body"><h4>${esc(r.title)}</h4><div class="meta"><span>${dateText(r.date)}</span>${r.person?`<span>👤 ${esc(r.person)}</span>`:''}${r.phone?`<span>☎ ${esc(r.phone)}</span>`:''}</div>${r.amount?`<p class="money">${r.kind==='debit'?'مدين':'دائن'}: ${money(r.amount)}</p>`:''}${r.notes?`<p>${esc(r.notes)}</p>`:''}<div class="actions"><button data-edit="${r.id}" title="تعديل">✎</button><button data-done="${r.id}" title="تم / لم يتم">${r.done?'↶':'✓'}</button><button data-delete="${r.id}" title="حذف">⌫</button></div></div></div>`}
+function openForm(category='notes',r=null){$('recordForm').reset();$('recordId').value=r?.id||'';$('category').innerHTML=CATS.map(c=>`<option value="${c[0]}">${c[1]} ${c[2]}</option>`).join('');$('category').value=r?.category||category;$('title').value=r?.title||'';$('date').value=r?.date||today();$('amount').value=r?.amount||'';$('kind').value=r?.kind||'credit';$('person').value=r?.person||'';$('phone').value=r?.phone||'';$('notes').value=r?.notes||'';$('modalTitle').textContent=r?'تعديل السجل':'إضافة سجل جديد';$('kindWrap').style.display=$('category').value==='money'?'block':'none';$('category').onchange=()=>{$('kindWrap').style.display=$('category').value==='money'?'block':'none'};$('overlay').classList.add('show')}
+function edit(id){let r=records.find(x=>x.id===id);if(r)openForm(r.category,r)}
+function del(id){if(confirm('هل تريد حذف هذا السجل؟')){records=records.filter(r=>r.id!==id);save();render()}}
+$('recordForm').onsubmit=e=>{e.preventDefault();let id=$('recordId').value;let r={id:id||String(Date.now())+'_'+Math.random().toString(36).slice(2,7),category:$('category').value,title:$('title').value.trim(),date:$('date').value,amount:$('amount').value,kind:$('kind').value,person:$('person').value.trim(),phone:$('phone').value.trim(),notes:$('notes').value.trim(),done:false};if(id){let old=records.find(x=>x.id===id);r.done=old?.done||false;records=records.map(x=>x.id===id?r:x)}else records.push(r);save();$('overlay').classList.remove('show');render()};
+$('cancelBtn').onclick=()=>$('overlay').classList.remove('show');$('overlay').onclick=e=>{if(e.target===$('overlay'))$('overlay').classList.remove('show')};
+$('fab').onclick=()=>openForm(current.startsWith('cat:')?current.slice(4):'notes');
+document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{current=b.dataset.tab;filter='';document.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('active',x===b));render()});
+$('settingsBtn').onclick=()=>{current='tools';render()};
+function exportData(){let blob=new Blob([JSON.stringify({app:'حياتي',version:1,exportedAt:new Date().toISOString(),records},null,2)],{type:'application/json'});let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hayati-backup-'+today()+'.json';a.click();URL.revokeObjectURL(a.href)}
+function importData(){let i=document.createElement('input');i.type='file';i.accept='.json,application/json';i.onchange=()=>{let f=i.files[0];if(!f)return;let rd=new FileReader();rd.onload=()=>{try{let d=JSON.parse(rd.result);if(!Array.isArray(d.records))throw 0;if(confirm('استيراد السجلات؟ سيتم دمجها مع البيانات الحالية.')){let ids=new Set(records.map(r=>r.id));records=records.concat(d.records.filter(r=>!ids.has(r.id)));save();render();alert('تم استيراد النسخة بنجاح')}}catch(e){alert('ملف النسخة غير صالح')}};rd.readAsText(f)};i.click()}
+function enableNotifications(){if(!('Notification'in window)){alert('الإشعارات غير مدعومة في هذا المتصفح');return}Notification.requestPermission().then(p=>alert(p==='granted'?'تم السماح بالإشعارات. افتح التطبيق لمراجعة المواعيد.':'لم يتم السماح بالإشعارات'))}
+function clearData(){if(confirm('تحذير: سيتم حذف كل سجلات حياتي من هذا الجهاز نهائيًا. هل أنت متأكد؟')&&confirm('تأكيد أخير: هل تريد مسح كل البيانات؟')){records=[];save();render()}}
+render();
+if('serviceWorker'in navigator && location.protocol!=='file:'){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}))}
+</script>
+</body></html>
